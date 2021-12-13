@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>rust-crdt wasm example</title>
+    </head>
+    <body>
+        <script type="module">
+            import init, { DotU32, GCounterU32 } from "/pkg/rust_crdt_wasm.js";
+            init().then(() => {
+                let agentId = 89;
+                let counter = GCounterU32.new();
+
+                let op = counter.inc(agentId);
+
+                // fake seralization roundtrip
+                let op_json = op.to_json();
+                let op_hydrated = DotU32.from_json(op_json);
+
+                counter.apply(op_hydrated);
+
+                console.log(counter.read());
+            });
+        </script>
+    </body>
+</html>
