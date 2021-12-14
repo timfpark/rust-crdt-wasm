@@ -6,16 +6,18 @@
     </head>
     <body>
         <script type="module">
-            import init, { DotU32, GCounterU32 } from "/pkg/rust_crdt_wasm.js";
+            import init, {
+                DotString,
+                GCounterString,
+            } from "/pkg/rust_crdt_wasm.js";
             init().then(() => {
-                let agentId = 89;
-                let counter = GCounterU32.new();
+                let counter = GCounterString.new();
 
-                let op = counter.inc(agentId);
+                let op = counter.inc("A");
 
                 // fake seralization roundtrip
                 let op_json = op.to_json();
-                let op_hydrated = DotU32.from_json(op_json);
+                let op_hydrated = DotString.from_json(op_json);
 
                 counter.apply(op_hydrated);
 

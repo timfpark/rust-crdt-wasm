@@ -3,25 +3,25 @@ use num::ToPrimitive;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub struct GCounterU32 {
-    inner: GCounter<u32>,
+pub struct GCounterString {
+    inner: GCounter<String>,
 }
 
 #[wasm_bindgen]
-impl GCounterU32 {
+impl GCounterString {
     pub fn new() -> Self {
         Self {
             inner: GCounter::new(),
         }
     }
 
-    pub fn inc(&mut self, actor: u32) -> DotU32 {
-        DotU32 {
+    pub fn inc(&mut self, actor: String) -> DotString {
+        DotString {
             inner: self.inner.inc(actor),
         }
     }
 
-    pub fn apply(&mut self, op: DotU32) {
+    pub fn apply(&mut self, op: DotString) {
         self.inner.apply(op.inner)
     }
 
@@ -31,12 +31,12 @@ impl GCounterU32 {
 }
 
 #[wasm_bindgen]
-pub struct DotU32 {
-    inner: Dot<u32>,
+pub struct DotString {
+    inner: Dot<String>,
 }
 
 #[wasm_bindgen]
-impl DotU32 {
+impl DotString {
     pub fn from_json(json_string: String) -> Self {
         Self {
             inner: serde_json::from_str(&json_string).unwrap(),
